@@ -1,0 +1,22 @@
+{
+  "name": "lab2",
+  "version": "1.0.0",
+  "description": "A simple http server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Papsanly/node-lab2.git"
+  },
+  "author": "Papsanly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Papsanly/node-lab2/issues"
+  },
+  "homepage": "https://github.com/Papsanly/node-lab2#readme",
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  }
+}
