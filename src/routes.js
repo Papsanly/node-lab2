@@ -7,8 +7,7 @@ export default {
   },
   '/api/resource': {
     GET: (req, res) => {
-      // Example of a JSON:API compliant response
-      res.writeHead(200, { 'Content-Type': 'application/vnd.api+json' })
+      res.writeHead(200, { 'Content-Type': 'application/vnd.src+json' })
       res.end(
         JSON.stringify({
           data: {
@@ -27,7 +26,6 @@ export default {
         body += chunk.toString()
       })
       req.on('end', () => {
-        // Handle different content types here
         res.writeHead(200, { 'Content-Type': 'text/plain' })
         res.end(`Received data: ${body}`)
       })
