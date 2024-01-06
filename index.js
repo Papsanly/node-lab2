@@ -20,9 +20,11 @@ function handler(req, res) {
         let parsedData
 
         try {
-          if (contentType === 'application/json') {
+          if (contentType.startsWith('application/json')) {
             parsedData = JSON.parse(body)
-          } else if (contentType === 'application/x-www-form-urlencoded') {
+          } else if (
+            contentType.startsWith('application/x-www-form-urlencoded')
+          ) {
             parsedData = Object.fromEntries(new URLSearchParams(body))
           } else {
             res.writeHead(415, { 'Content-Type': 'text/plain' })
@@ -30,9 +32,11 @@ function handler(req, res) {
           }
         } catch (error) {
           res.writeHead(415, { 'Content-Type': 'text/plain' })
-          if (contentType === 'application/json') {
+          if (contentType.startsWith('application/json')) {
             return res.end('invalid JSON')
-          } else if (contentType === 'application/x-www-form-urlencoded') {
+          } else if (
+            contentType.startsWith('application/x-www-form-urlencoded')
+          ) {
             return res.end('invalid form data')
           }
         }
