@@ -16,23 +16,25 @@ function handler(req, res) {
     })
 
     req.on('end', () => {
-      let parsedData
+      if (method !== 'GET') {
+        let parsedData
 
-      if (contentType === 'application/json') {
-        try {
-          parsedData = JSON.parse(body)
-        } catch (error) {
-          res.writeHead(400, { 'Content-Type': 'text/plain' })
-          return res.end('Invalid JSON')
+        if (contentType === 'application/json') {
+          try {
+            parsedData = JSON.parse(body)
+          } catch (error) {
+            res.writeHead(400, { 'Content-Type': 'text/plain' })
+            return res.end('Invalid JSON')
+          }
+        } else if (contentType === 'application/x-www-form-urlencoded') {
+          parsedData = new URLSearchParams(body)
+        } else {
+          res.writeHead(415, { 'Content-Type': 'text/plain' })
+          return res.end('Unsupported Media Type')
         }
-      } else if (contentType === 'application/x-www-form-urlencoded') {
-        parsedData = new URLSearchParams(body)
-      } else {
-        res.writeHead(415, { 'Content-Type': 'text/plain' })
-        return res.end('Unsupported Media Type')
-      }
 
-      req.body = parsedData
+        req.body = parsedData
+      }
       handler(req, res)
     })
   } else {
