@@ -19,23 +19,22 @@ function handler(req, res) {
       if (method !== 'GET') {
         let parsedData
 
-        if (contentType === 'application/json') {
-          try {
+        try {
+          if (contentType === 'application/json') {
             parsedData = JSON.parse(body)
-          } catch (error) {
-            res.writeHead(400, { 'Content-Type': 'text/plain' })
-            return res.end('Invalid JSON')
-          }
-        } else if (contentType === 'application/x-www-form-urlencoded') {
-          try {
+          } else if (contentType === 'application/x-www-form-urlencoded') {
             parsedData = Object.fromEntries(new URLSearchParams(body))
-          } catch (error) {
-            res.writeHead(400, { 'Content-Type': 'text/plain' })
-            return res.end('Invalid form data')
+          } else {
+            res.writeHead(415, { 'Content-Type': 'text/plain' })
+            return res.end('Unsupported Media Type')
           }
-        } else {
+        } catch (error) {
           res.writeHead(415, { 'Content-Type': 'text/plain' })
-          return res.end('Unsupported Media Type')
+          if (contentType === 'application/json') {
+            return res.end('invalid JSON')
+          } else if (contentType === 'application/x-www-form-urlencoded') {
+            return res.end('invalid form data')
+          }
         }
 
         req.body = parsedData
