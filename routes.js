@@ -22,7 +22,7 @@ export default {
     },
     POST: (req, res) => {
       res.writeHead(200, { 'Content-Type': 'text/plain' })
-      res.end(`Received data: ${req.body}`)
+      res.end(`Received data: ${JSON.stringify(req.body)}`)
     }
   }
 }
