@@ -27,7 +27,12 @@ function handler(req, res) {
             return res.end('Invalid JSON')
           }
         } else if (contentType === 'application/x-www-form-urlencoded') {
-          parsedData = Object.fromEntries(new URLSearchParams(body))
+          try {
+            parsedData = Object.fromEntries(new URLSearchParams(body))
+          } catch (error) {
+            res.writeHead(400, { 'Content-Type': 'text/plain' })
+            return res.end('Invalid form data')
+          }
         } else {
           res.writeHead(415, { 'Content-Type': 'text/plain' })
           return res.end('Unsupported Media Type')
